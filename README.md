@@ -1,1 +1,2 @@
-# tradutor-de-paginas-url
+# DESCRIÇÃO DO PROJETO:
+### Desenvolvi um sistema de tradução automatizada em Python utilizando a API do Microsoft Translator, capaz de traduzir textos do inglês para o português de forma eficiente e personalizada. O projeto implementa controle de limites de tokens e requisições, respeitando as restrições da API, além de realizar pré-processamento para otimizar o desempenho. Com integração direta ao endpoint do serviço e suporte a múltiplos idiomas de destino, a solução é ideal para aplicações que demandam tradução rápida e confiável, como plataformas de comunicação e ferramentas de suporte ao cliente.
