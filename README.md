@@ -1,0 +1,1 @@
+# tradutor-de-paginas-url
