@@ -1,8 +1,4 @@
-papermill
-nbconvert
-jupyter
 requests
-python-dotenv
 beautifulsoup4
 openai
 langchain-openai
