@@ -22,5 +22,16 @@ Desenvolvi um sistema de tradução automatizada em Python utilizando a API do M
   
 ### Como Usar 🛠️
 1. Clone o repositório:
-```bash
-git clone https://github.com/diego-albertino/tradutor-de-paginas-url.git
+    ```bash
+    git clone https://github.com/diego-albertino/tradutor-de-paginas-url.git
+    ```
+2. Baixe o arquivo `tradutor_de_páginas_url.ipynb` ou `tradutor.py`.
+3. Crie um arquivo `.env` e adicione as chaves e endpoints do Azure:
+    ```
+    SUBSCRIPTION_KEY= 
+    ENDPOINT=
+    LOCATION=
+    AZURE_ENDPOINT=
+    API_KEY=
+    API_VERSION=
+    ```
