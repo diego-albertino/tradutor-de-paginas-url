@@ -21,7 +21,7 @@ jobs:
       with:
         python-version: '3.9'
 
-    # 3. Verificar as variáveis de ambiente
+    # 3. Testar a presença das variáveis de ambiente sem imprimir os valores
     - name: Test Environment Variables
       env:  # Passar os secrets como variáveis de ambiente
         SUBSCRIPTION_KEY: ${{ secrets.SUBSCRIPTION_KEY }}
@@ -32,9 +32,9 @@ jobs:
         API_VERSION: ${{ secrets.API_VERSION }}
       run: |
         echo "Testing environment variables..."
-        echo "SUBSCRIPTION_KEY is set to: $SUBSCRIPTION_KEY"
-        echo "ENDPOINT is set to: $ENDPOINT"
-        echo "LOCATION is set to: $LOCATION"
-        echo "AZURE_ENDPOINT is set to: $AZURE_ENDPOINT"
-        echo "API_KEY is set to: $API_KEY"
-        echo "API_VERSION is set to: $API_VERSION"
+        if [ -z "$SUBSCRIPTION_KEY" ]; then echo "SUBSCRIPTION_KEY is missing!"; else echo "SUBSCRIPTION_KEY is set."; fi
+        if [ -z "$ENDPOINT" ]; then echo "ENDPOINT is missing!"; else echo "ENDPOINT is set."; fi
+        if [ -z "$LOCATION" ]; then echo "LOCATION is missing!"; else echo "LOCATION is set."; fi
+        if [ -z "$AZURE_ENDPOINT" ]; then echo "AZURE_ENDPOINT is missing!"; else echo "AZURE_ENDPOINT is set."; fi
+        if [ -z "$API_KEY" ]; then echo "API_KEY is missing!"; else echo "API_KEY is set."; fi
+        if [ -z "$API_VERSION" ]; then echo "API_VERSION is missing!"; else echo "API_VERSION is set."; fi
