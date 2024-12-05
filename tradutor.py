@@ -35,7 +35,7 @@ def extract_text_from_url(url, limit= False):
 
 
     if limit:
-      max_characters = 200  # Ajuste conforme necessário
+      max_characters = 50  # Ajuste conforme necessário
       texto_limpo_limit = texto_limpo[:max_characters]
       return texto_limpo_limit
 
@@ -90,16 +90,17 @@ def translator_text(text, target_language):
   response = request.json()
   return response[0]["translations"][0]["text"]
 
-# UILIZA O GPT-4O-MINI PARA FAZER TRADUÇÃO
-url = 'https://dev.to/kenakamu/azure-open-ai-in-vnet-3alo'
-text = extract_text_from_url(url, True)
-article = translate_article(text, 'portugues')
+modelo = input("Digite o modelo de tradução: ")
 
-print(article)
-
-# UTILIZA O MICROSOFT TRANSLATE PARA TRADUZIR
-url = 'https://dev.to/kenakamu/azure-open-ai-in-vnet-3alo'
-texto = extract_text_from_url(url)
-artigo = translator_text(texto, 'pt-br')
-
-print(artigo)
+if modelo == 'GPT':
+  # UILIZA O GPT-4O-MINI PARA FAZER TRADUÇÃO
+  url = 'https://dev.to/kenakamu/azure-open-ai-in-vnet-3alo'
+  text = extract_text_from_url(url, True)
+  article = translate_article(text, 'portugues')
+  print(article)
+else:
+  # UTILIZA O MICROSOFT TRANSLATE PARA TRADUZIR
+  url = 'https://dev.to/kenakamu/azure-open-ai-in-vnet-3alo'
+  texto = extract_text_from_url(url)
+  artigo = translator_text(texto, 'pt-br')
+  print(artigo)
