@@ -1,0 +1,40 @@
+name: Run Jupyter Notebook
+
+on:
+  push:
+    branches:
+      - main  # Executa o workflow ao fazer push na branch principal
+  workflow_dispatch:  # Permite executar manualmente
+
+jobs:
+  execute-notebook:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Fazer checkout do código no repositório
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # 2. Configurar o ambiente Python
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    # 3. Instalar dependências
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+        pip install nbconvert papermill
+
+    # 4. Executar o notebook
+    - name: Execute Notebook
+      env:  # Passar os secrets como variáveis de ambiente
+        SUBSCRIPTION_KEY: ${{ secrets.SUBSCRIPTION_KEY }}
+        ENDPOINT: ${{ secrets.ENDPOINT }}
+        LOCATION: ${{ secrets.LOCATION }}
+        AZURE_ENDPOINT: ${{ secrets.AZURE_ENDPOINT }}
+        API_KEY: ${{ secrets.API_KEY }}
+        API_VERSION: ${{ secrets.API_VERSION }}
+      run: |
+        papermill seu_notebook.ipynb output_notebook.ipynb
