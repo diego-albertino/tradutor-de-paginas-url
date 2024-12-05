@@ -1,27 +1,40 @@
-name: Test Workflow
+name: Test Environment Variables
 
 on:
   push:
     branches:
-      - main
+      - main  # Executa o workflow ao fazer push na branch principal
+  workflow_dispatch:  # Permite executar manualmente
 
 jobs:
-  build:
+  test-secrets:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Check out the repository
-        uses: actions/checkout@v2
+    # 1. Fazer checkout do código no repositório
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Set environment variables
-        run: |
-          echo "AZURE_OPENAI_API_KEY=${{ secrets.AZURE_OPENAI_API_KEY }}" >> $GITHUB_ENV
-          echo "AZURE_OPENAI_ENDPOINT=${{ secrets.AZURE_OPENAI_ENDPOINT }}" >> $GITHUB_ENV
-          echo "AZURE_API_VERSION=${{ secrets.AZURE_API_VERSION }}" >> $GITHUB_ENV
+    # 2. Configurar o ambiente Python
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
 
-      - name: Install dependencies
-        run: |
-          pip install papermill langchain openai
-
-      - name: Run notebook with papermill
-        run: |
-          papermill ./tradutor_de_páginas_url.ipynb output_notebook.ipynb
+    # 3. Verificar as variáveis de ambiente
+    - name: Test Environment Variables
+      env:  # Passar os secrets como variáveis de ambiente
+        SUBSCRIPTION_KEY: ${{ secrets.SUBSCRIPTION_KEY }}
+        ENDPOINT: ${{ secrets.ENDPOINT }}
+        LOCATION: ${{ secrets.LOCATION }}
+        AZURE_ENDPOINT: ${{ secrets.AZURE_ENDPOINT }}
+        API_KEY: ${{ secrets.API_KEY }}
+        API_VERSION: ${{ secrets.API_VERSION }}
+      run: |
+        echo "Testing environment variables..."
+        echo "SUBSCRIPTION_KEY is set to: $SUBSCRIPTION_KEY"
+        echo "ENDPOINT is set to: $ENDPOINT"
+        echo "LOCATION is set to: $LOCATION"
+        echo "AZURE_ENDPOINT is set to: $AZURE_ENDPOINT"
+        echo "API_KEY is set to: $API_KEY"
+        echo "API_VERSION is set to: $API_VERSION"
