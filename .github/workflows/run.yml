@@ -24,10 +24,15 @@ jobs:
     # 3. Instalar dependências
     - name: Install dependencies
       run: |
+        pip install --upgrade pip
         pip install -r requirements.txt
-        pip install nbconvert papermill
+        pip install nbconvert papermill jupyter
 
-    # 4. Executar o notebook
+    # 4. Verificar a versão do Python
+    - name: Check Python version
+      run: python --version
+
+    # 5. Executar o notebook com papermill e garantir que o kernel python3 seja usado
     - name: Execute Notebook
       env:  # Passar os secrets como variáveis de ambiente
         SUBSCRIPTION_KEY: ${{ secrets.SUBSCRIPTION_KEY }}
@@ -37,4 +42,4 @@ jobs:
         API_KEY: ${{ secrets.API_KEY }}
         API_VERSION: ${{ secrets.API_VERSION }}
       run: |
-        papermill ./tradutor_de_páginas_url.ipynb output_notebook.ipynb
+        papermill ./tradutor_de_páginas_url.ipynb output_notebook.ipynb -k python3
