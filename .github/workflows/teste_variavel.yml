@@ -15,26 +15,29 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # 2. Configurar o ambiente Python
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.9'
+    # 2. Testar se os secrets estão definidos
+    - name: Test environment variables
+      run: |
+        echo "Testing environment variables..."
+        
+        # Função para testar se a variável está definida
+        test_var() {
+          if [ -z "${!1}" ]; then
+            echo "$1 is not defined!"
+          else
+            echo "$1 is set to: ${!1}"
+          fi
+        }
 
-    # 3. Testar a presença das variáveis de ambiente sem imprimir os valores
-    - name: Test Environment Variables
-      env:  # Passar os secrets como variáveis de ambiente
+        # Testar os secrets
+        test_var "SUBSCRIPTION_KEY"
+        test_var "ENDPOINT"
+        test_var "LOCATION"
+        test_var "API_KEY"
+        test_var "API_VERSION"
+      env:  # Passando os secrets como variáveis de ambiente para o script
         SUBSCRIPTION_KEY: ${{ secrets.SUBSCRIPTION_KEY }}
         ENDPOINT: ${{ secrets.ENDPOINT }}
         LOCATION: ${{ secrets.LOCATION }}
-        AZURE_ENDPOINT: ${{ secrets.AZURE_ENDPOINT }}
         API_KEY: ${{ secrets.API_KEY }}
         API_VERSION: ${{ secrets.API_VERSION }}
-      run: |
-        echo "Testing environment variables..."
-        if [ -z "$SUBSCRIPTION_KEY" ]; then echo "SUBSCRIPTION_KEY is missing!"; else echo "SUBSCRIPTION_KEY is set."; fi
-        if [ -z "$ENDPOINT" ]; then echo "ENDPOINT is missing!"; else echo "ENDPOINT is set."; fi
-        if [ -z "$LOCATION" ]; then echo "LOCATION is missing!"; else echo "LOCATION is set."; fi
-        if [ -z "$AZURE_ENDPOINT" ]; then echo "AZURE_ENDPOINT is missing!"; else echo "AZURE_ENDPOINT is set."; fi
-        if [ -z "$API_KEY" ]; then echo "API_KEY is missing!"; else echo "API_KEY is set."; fi
-        if [ -z "$API_VERSION" ]; then echo "API_VERSION is missing!"; else echo "API_VERSION is set."; fi
